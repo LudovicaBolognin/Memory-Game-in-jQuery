@@ -22,6 +22,12 @@ $( () => {
     const playerLivesCount = $('.playerLivesCount');
     let playerLives = arrayCards.length;
     playerLivesCount.text(playerLives);
+//Modale:
+    const modale = $('#modal');
+    //click compiuti:
+    const clickNumbers = $('.clickNumbers');
+    let totalClicks = 0;
+    clickNumbers.text(totalClicks);
 
 
     const container = $('.container');
@@ -67,9 +73,10 @@ const cardGenerator = () => {
         face.addClass('face');
         back.addClass('back');
 
-        // Source e nome delle immagini:
+        // Source, nome e value delle immagini:
         face.attr('src', item.imgSrc);
         card.attr('name', item.name);
+        card.attr('data-card-value', item.name);
 
         // Attaccare le carte alla sezione:
         card.appendTo('section');
@@ -78,36 +85,55 @@ const cardGenerator = () => {
 
         // Aggiungere la classe toggle alle carte cliccate:
         card.on('click', (e) => {
-            // Controllare se addClass equivale a element.classList ????
             card.toggleClass('toggleCard');
+            //numeri di click:
+            totalClicks += 1;
+            clickNumbers.text(totalClicks);
+
+            // inserire funzione per controllare se le carte matchano
             checkCards(e);
         });
     });
 };
 
-// Confrontare le carte:
-const checkCards = (e) => {
-    // console.log(e); -> Pointer events
+const checkCards = function(e) {
     const clickedCard = e.target;
-
-    // Perché fa problemi con addClass?
+    console.log(clickedCard); // l'intera carta
     clickedCard.classList.add('flipped');
     const flippedCards = $('.flipped');
     const toggleCard = $('.toggleCard');
+    console.log(toggleCard);
 
-}
+    if(flippedCards.length == 2) {
+        if(flippedCards.first().data('cardValue') === flippedCards.last().data('cardValue')){
+            //console.log(flippedCards.first().data('cardValue'));
+            //console.log(flippedCards.last().data('cardValue'));
+            flippedCards.each( function() {
+                flippedCards.removeClass('flipped');
+                flippedCards.css('pointer-events', 'none');
+            });
+        } else {
+            flippedCards.each( function() {
+                flippedCards.removeClass('flipped');
+                setTimeout( function() {flippedCards.removeClass('toggleCard')}, 1000);
+            });
+            playerLives--;
+            playerLivesCount.text(playerLives);
+            if (playerLives == 0) {
+                alert('Hai perso! Ritenta, sarai più fortunatə!');
+            };
+        };
+    };
 
-
-
-
-
-
+    if(toggleCard.length === 16) {
+        modale.show();
+    };
+};
 cardGenerator();
 
 
-
-
-
-
-
 });
+
+function restart() {
+    location.reload();
+};

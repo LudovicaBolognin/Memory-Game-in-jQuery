@@ -14,11 +14,19 @@
 <body>
     <header><h1>Gioco del Memory in jQuery</h1></header>
     <main>
-        <h4 id="cronometro">Tempo impiegato: 00 : 00</h4>
-        <h4>Tentativi rimasti: <span class="playerLivesCount"></span></h4>
+        <!--<h4 id="cronometro">Tempo impiegato: 00 : 00</h4>-->
+        <h4>Tentativi rimasti: <span class="playerLivesCount"></span> - Click compiuti: <span class="clickNumbers"></span></h4>
         <div class="container"></div> <!--Inserire la <section></section> dentro il div, la quale conterrà le carte-->
-        <button type="button" id="button" class="button" onclick="" value="Ricomincia">Ricomincia</button>
+        <button type="button" id="button" class="button" onclick="restart()" value="Ricomincia">Ricomincia</button>
     </main>
+
+    <div id="modal">
+        <div class="content">
+            <h2>Complimenti! <br>Sei riuscitə a risolvere il gioco!</h2><br>
+            <!--<p id="tempoTrascorso">00 : 00</p><br>-->
+            <p><button type="button" class="button" onclick="restart()" value="Altra partita">Gioca ancora</button></p>
+        </div>
+    </div> 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="js/script.js"></script>
